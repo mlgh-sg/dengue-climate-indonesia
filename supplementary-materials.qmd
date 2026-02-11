@@ -1,0 +1,608 @@
+---
+title: "S1 Appendix: Dengue transmission heterogeneity across Indonesia’s archipelago: climate-driven spatiotemporal patterns and policy implications"
+author:
+  - name: "Bimandra Djaafara"
+    affiliation: "National University of Singapore"
+    email: "bimandra.djaafara@nus.edu.sg"
+  - name: "Iqbal Elyazar"
+    affiliation: "[Affiliation]"
+  - name: "Asik Surya"
+    affiliation: "[Affiliation]"
+  - name: "Fadjar SM Silalahi"
+    affiliation: "[Affiliation]"
+  - name: "Agus Handito"
+    affiliation: "[Affiliation]"
+  - name: "Burhannudin Thohir"
+    affiliation: "[Affiliation]"
+  - name: "Desfalina Aryani"
+    affiliation: "[Affiliation]"
+  - name: "Mushtofa Kamal"
+    affiliation: "[Affiliation]"
+  - name: "Aditya L Ramadona"
+    affiliation: "[Affiliation]"  
+  - name: "Dyana Gunawan"
+    affiliation: "[Affiliation]"
+  - name: "Hipokrates"
+    affiliation: "[Affiliation]"
+  - name: "Anzala Khoirun Nisa"
+    affiliation: "[Affiliation]"
+  - name: "Edi Prianto"
+    affiliation: "[Affiliation]"
+  - name: "Iriani Samad"
+    affiliation: "[Affiliation]"
+  - name: "Agus Sugiarto"
+    affiliation: "[Affiliation]"
+  - name: "Nuno R Faria"
+    affiliation: "[Affiliation]"
+  - name: "Kimberly Fornace"
+    affiliation: "[Affiliation]"
+  - name: "Hannah E Clapham"
+    affiliation: "[Affiliation]"
+  - name: "Swapnil Mishra"
+    affiliation: "National University of Singapore"
+date: today
+format:
+  pdf:
+    documentclass: article
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    linestretch: 1.5
+    number-sections: true
+    toc: true
+    toc-depth: 2
+    toc-title: "Table of Contents"
+    lof: false
+    lot: false
+    fig-pos: 'H'
+    keep-tex: false
+    clean: true
+    include-in-header:
+      text: |
+        \usepackage{pdflscape}
+        \usepackage{longtable}
+        \usepackage{booktabs}
+        \renewcommand{\contentsname}{Table of Contents}
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+#| include: false
+library(knitr)
+library(gt)
+library(tidyverse)
+
+# Source the supplementary analysis script
+source("script/all-supplementary.R")
+
+# Set knitr options
+opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  out.width = '100%'
+)
+```
+
+{{< pagebreak >}}
+
+# Supplementary Tables
+
+## Table S1: Province Reference Index
+
+Province names and their corresponding numerical indices for reference to all maps in the main figures.
+
+```{r}
+#| label: tbl-s1
+table_s1 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S1. Province Reference Index"
+  ) %>%
+  cols_label(
+    index = "Index",
+    province = "Province Name",
+    idadmin1 = "Admin ID"
+  ) %>%
+  cols_align(align = "center", columns = c(index, idadmin1)) %>%
+  cols_align(align = "left", columns = province) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+\newpage
+
+## Table S2: Annual Dengue Incidence by Epidemic Year
+
+Incidence by July-June annual period and their respective z-scores. Epidemic year "2015-16" represents July 2015 to June 2016. Major outbreak years are defined as z-score > 1 (more than one standard deviation above the mean).
+
+```{r}
+#| label: tbl-s2
+table_s2 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S2. Annual Dengue Incidence by Epidemic Year"
+  ) %>%
+  cols_label(
+    epi_year = "Epidemic Year",
+    total_cases = "Total Cases",
+    incidence = "Incidence per 100,000",
+    z_score = "Z-score",
+    year_type = "Year Type"
+  ) %>%
+  cols_align(align = "center") %>%
+  data_color(
+    columns = year_type,
+    rows = year_type == "Major outbreak",
+    colors = "yellow"
+  ) %>%
+  tab_footnote(
+    footnote = "Epidemic year follows July-June pattern to capture continuous outbreak seasons",
+    locations = cells_column_labels(columns = epi_year)
+  ) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+\newpage
+
+## Table S3: Silhouette Statistics for Cluster Optimization (All Provinces)
+
+Silhouette statistics for different numbers of clusters (k=2 to k=15) for all 34 provinces. The selected number of clusters (k=12, highlighted) accounts for both silhouette statistics and balance in cluster sizes.
+
+```{r}
+#| label: tbl-s3
+table_s3 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S3. Silhouette Statistics (All Provinces)"
+  ) %>%
+  cols_label(
+    `No. of clusters` = "Number of Clusters",
+    Silhouette = "Silhouette Score"
+  ) %>%
+  cols_align(align = "center") %>%
+  data_color(
+    columns = `No. of clusters`,
+    rows = `No. of clusters` == 12,
+    colors = "yellow"
+  ) %>%
+  fmt_number(
+    columns = Silhouette,
+    decimals = 3
+  ) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+\newpage
+
+## Table S4: Silhouette Statistics for Cluster Optimization (Western Provinces + Kalimantan)
+
+Silhouette statistics for western provinces including Kalimantan (22 provinces). The selected number of clusters is k=10 (highlighted).
+
+```{r}
+#| label: tbl-s4
+table_s4 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S4. Silhouette Statistics (Western Provinces + Kalimantan)"
+  ) %>%
+  cols_label(
+    `No. of clusters` = "Number of Clusters",
+    Silhouette = "Silhouette Score"
+  ) %>%
+  cols_align(align = "center") %>%
+  data_color(
+    columns = `No. of clusters`,
+    rows = `No. of clusters` == 10,
+    colors = "yellow"
+  ) %>%
+  fmt_number(
+    columns = Silhouette,
+    decimals = 3
+  ) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+\newpage
+
+## Table S5: Silhouette Statistics for Cluster Optimization (Western Provinces Only)
+
+Silhouette statistics for western provinces only (Sumatra and Java-Bali, 17 provinces). The selected number of clusters is k=4 (highlighted), representing the cleanest cluster structure.
+
+```{r}
+#| label: tbl-s5
+table_s5 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S5. Silhouette Statistics (Western Provinces Only)"
+  ) %>%
+  cols_label(
+    `No. of clusters` = "Number of Clusters",
+    Silhouette = "Silhouette Score"
+  ) %>%
+  cols_align(align = "center") %>%
+  data_color(
+    columns = `No. of clusters`,
+    rows = `No. of clusters` == 4,
+    colors = "yellow"
+  ) %>%
+  fmt_number(
+    columns = Silhouette,
+    decimals = 3
+  ) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+\newpage
+
+## Table S6: Province Dissimilarity Within Regions
+
+Mean DTW distance from each province to other provinces in the same region, with z-scores calculated within each region. Provinces with |z| > 1.65 are flagged as temporal outliers whose dynamics deviate substantially from their regional pattern.
+
+```{r}
+#| label: tbl-s6
+# Make table more compact
+table_s6_outliers %>%
+  gt() %>%
+  tab_header(
+    title = "Table S6. Province Dissimilarity Within Regions"
+  ) %>%
+  cols_label(
+    Region = "Region",
+    Province = "Province",
+    `Mean DTW dist to region` = "Mean DTW",
+    `Z-score` = "Z-score",
+    `Outlier (|z| > 2)` = "Outlier"
+  ) %>%
+  fmt_number(
+    columns = c(`Mean DTW dist to region`, `Z-score`),
+    decimals = 2
+  ) %>%
+  cols_align(align = "center") %>%
+  cols_align(align = "left", columns = c(Region, Province)) %>%
+  tab_options(
+    table.font.size = px(8),
+    data_row.padding = px(3)
+  ) %>%
+  tab_footnote(
+    footnote = "Z-score calculated within each region. Provinces with |z| > 2 flagged as outliers.",
+    locations = cells_column_labels(columns = `Z-score`)
+  )
+```
+
+\newpage
+
+## Table S7: Regional Correlations Between Climate Indices and Dengue Incidence
+
+Spearman correlations between large-scale climate indices (ONI and DMI) and dengue incidence by geographic region, using epidemic year aggregation (July-June).
+
+```{r}
+#| label: tbl-s7
+table_s7 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S7. Regional Climate Index Correlations"
+  ) %>%
+  cols_label(
+    region = "Region",
+    n_years = "N Years",
+    cor_oni = "ONI Correlation",
+    cor_dmi = "DMI Correlation",
+    better_index = "Better Index"
+  ) %>%
+  cols_align(align = "center") %>%
+  cols_align(align = "left", columns = region) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+\newpage
+
+# COVID-19 Pandemic Sensitivity Analysis
+
+The COVID-19 pandemic (2020-2024) may disrupt dengue surveillance systems across Indonesia. To assess whether our findings are robust to potential surveillance artifacts during this period, we conducted a sensitivity analysis comparing results from the full study period (2010-2024) with a pre-pandemic subset (2010-2019).
+
+## Methods
+
+We re-ran three key analyses using only pre-pandemic data:
+
+1. **Wavelet phase analysis** to extract province-level dengue timing patterns
+2. **Climate-dengue phase coherence** to identify provinces where climate reliably leads dengue
+3. **DLNM analysis** for qualifying provinces (coherence ≥0.85, positive phase lag) to estimate cumulative relative risk
+
+We then compared results across the two periods using three metrics: (1) agreement in phase lag estimates, (2) agreement in phase coherence, and (3) agreement in effect direction (elevated vs. protective) for DLNM-derived cumulative relative risks.
+
+## Results
+
+### Table S8: Phase Lag Comparison
+
+Comparison of dengue phase lags (timing relative to other provinces) between full dataset (2010-2024) and pre-pandemic period (2010-2019).
+
+\landscape
+
+```{r}
+#| label: tbl-s8
+table_s8 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S8. Phase Lag Sensitivity to COVID-19 Period"
+  ) %>%
+  cols_label(
+    province = "Prov.",
+    region = "Reg.",
+    phase_lag_full = "Lag (F)",
+    lower_ci_full = "LCI (F)",
+    upper_ci_full = "UCI (F)",
+    phase_lag_prepandemic = "Lag (PP)",
+    lower_ci_prepandemic = "LCI (PP)",
+    upper_ci_prepandemic = "UCI (PP)",
+    phase_lag_diff = "Diff",
+    qualitative_agreement = "Agree"
+  ) %>%
+  fmt_number(
+    columns = c(phase_lag_full, lower_ci_full, upper_ci_full,
+                phase_lag_prepandemic, lower_ci_prepandemic, upper_ci_prepandemic,
+                phase_lag_diff),
+    decimals = 2
+  ) %>%
+  cols_align(align = "center") %>%
+  cols_align(align = "left", columns = c(province, region)) %>%
+  data_color(
+    columns = qualitative_agreement,
+    rows = qualitative_agreement == "Same direction",
+    colors = "lightgreen"
+  ) %>%
+  tab_options(
+    table.font.size = px(7),
+    data_row.padding = px(2)
+  ) %>%
+  tab_footnote(
+    footnote = "F = Full period (2010-2024); PP = Pre-pandemic (2010-2019); LCI/UCI = Lower/Upper confidence interval",
+    locations = cells_title()
+  )
+```
+
+\endlandscape
+
+\newpage
+
+### Table S9: Phase Coherence Comparison
+
+Comparison of climate-dengue phase coherence between full dataset and pre-pandemic period for precipitation and temperature. "Qualified" indicates provinces meeting threshold criteria (coherence ≥0.85, phase lag ≥0) for inclusion in DLNM analysis.
+
+\landscape
+
+```{r}
+#| label: tbl-s9
+table_s9 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S9. Phase Coherence Sensitivity to COVID-19 Period"
+  ) %>%
+  cols_label(
+    admin1 = "Prov.",
+    region = "Reg.",
+    climate_var = "Clim.",
+    phase_lag_full = "Lag (F)",
+    coherence_full = "Coh (F)",
+    phase_lag_prepandemic = "Lag (PP)",
+    coherence_prepandemic = "Coh (PP)",
+    coherence_diff = "ΔCoh",
+    lag_diff = "ΔLag",
+    qualified_full = "Qual (F)",
+    qualified_prepandemic = "Qual (PP)",
+    qualification_agreement = "Agree"
+  ) %>%
+  fmt_number(
+    columns = c(phase_lag_full, coherence_full, phase_lag_prepandemic,
+                coherence_prepandemic, coherence_diff, lag_diff),
+    decimals = 2
+  ) %>%
+  cols_align(align = "center") %>%
+  cols_align(align = "left", columns = c(admin1, region, climate_var)) %>%
+  data_color(
+    columns = qualification_agreement,
+    rows = qualification_agreement == "Same",
+    colors = "lightgreen"
+  ) %>%
+  tab_options(
+    table.font.size = px(6),
+    data_row.padding = px(2)
+  ) %>%
+  tab_footnote(
+    footnote = "F = Full (2010-2024); PP = Pre-pandemic (2010-2019); Coh = Coherence; Qual = Qualified for DLNM",
+    locations = cells_title()
+  )
+```
+
+\endlandscape
+
+\newpage
+
+### Table S10: DLNM Cumulative Relative Risk Comparison
+
+Comparison of DLNM-derived cumulative relative risks at wavelet-derived lags between full dataset and pre-pandemic period. Only provinces qualifying in the full period are shown.
+
+\landscape
+
+```{r}
+#| label: tbl-s10
+table_s10 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S10. DLNM Relative Risk Sensitivity to COVID-19 Period"
+  ) %>%
+  cols_label(
+    province = "Prov.",
+    climate_var = "Clim.",
+    lag_full = "L(F)",
+    RR_full = "RR(F)",
+    RRlow_full = "RRL(F)",
+    RRhigh_full = "RRH(F)",
+    significant_full = "Sig(F)",
+    lag_prepandemic = "L(PP)",
+    RR_prepandemic = "RR(PP)",
+    RRlow_prepandemic = "RRL(PP)",
+    RRhigh_prepandemic = "RRH(PP)",
+    significant_prepandemic = "Sig(PP)",
+    RR_diff = "ΔRR",
+    both_significant = "Both Sig",
+    effect_direction_agreement = "Dir Agree"
+  ) %>%
+  fmt_number(
+    columns = c(RR_full, RRlow_full, RRhigh_full,
+                RR_prepandemic, RRlow_prepandemic, RRhigh_prepandemic,
+                RR_diff),
+    decimals = 2
+  ) %>%
+  cols_align(align = "center") %>%
+  cols_align(align = "left", columns = c(province, climate_var)) %>%
+  data_color(
+    columns = effect_direction_agreement,
+    rows = effect_direction_agreement == "Same direction",
+    colors = "lightgreen"
+  ) %>%
+  tab_options(
+    table.font.size = px(6),
+    data_row.padding = px(2)
+  ) %>%
+  tab_footnote(
+    footnote = "F = Full (2010-2024); PP = Pre-pandemic (2010-2019); L = Lag; RRL/RRH = RR Lower/Higher CI; Sig = Significant",
+    locations = cells_title()
+  )
+```
+
+\endlandscape
+
+## Interpretation
+
+The sensitivity analysis shows that our key findings are **robust to the inclusion of pandemic years**. Phase lag directions remain consistent for the majority of provinces, and provinces qualifying for DLNM analysis show substantial overlap between periods. While absolute values of phase coherence and relative risk estimates differ slightly—expected given the shorter time series in the pre-pandemic period—the qualitative conclusions regarding which provinces show reliable climate-dengue timing relationships and elevated dengue risk remain unchanged.
+
+This robustness suggests that the temporal patterns we identify reflect genuine epidemiological dynamics rather than surveillance artifacts, though we acknowledge that case detection likely declined during 2020-2021 and subsequent recovery may have introduced noise.
+
+\newpage
+
+# Phase Coherence Threshold Sensitivity Analysis
+
+Our main analysis uses a phase coherence threshold of 0.85 to identify provinces where climate variables show reliable timing relationships with dengue. This threshold represents a high degree of consistency in the climate-dengue phase relationship. To assess whether our conclusions are sensitive to this threshold choice, we tested alternative thresholds ranging from 0.70 to 0.90.
+
+## Methods
+
+For each threshold value (0.70, 0.75, 0.80, 0.85, 0.90), we:
+
+1. Identified provinces meeting the threshold criteria (coherence ≥ threshold AND phase lag ≥ 0)
+2. Counted qualifying provinces for precipitation and temperature
+3. Determined how many qualifying provinces showed statistically significant DLNM effects (cumulative RR confidence interval excluding 1.0)
+
+Higher thresholds are more stringent, selecting only provinces with very consistent climate-dengue timing. Lower thresholds are more permissive but may include provinces where the relationship is less reliable.
+
+## Results
+
+### Table S11: Threshold Sensitivity Analysis
+
+```{r}
+#| label: tbl-s11
+table_s11 %>%
+  gt() %>%
+  tab_header(
+    title = "Table S11. Sensitivity of Results to Phase Coherence Threshold"
+  ) %>%
+  tab_footnote(
+    footnote = "Bold row indicates threshold used in main analysis (0.85)",
+    locations = cells_title()
+  ) %>%
+  cols_align(align = "center") %>%
+  data_color(
+    columns = threshold,
+    rows = threshold == 0.85,
+    colors = "yellow"
+  ) %>%
+  tab_options(
+    table.font.size = px(10)
+  )
+```
+
+## Interpretation
+
+The number of qualifying provinces decreases predictably as the threshold becomes more stringent. The table shows that stricter coherence requirements substantially reduce the number of qualifying provinces, but the number showing statistically significant DLNM effects remains relatively stable, particularly for the 0.75-0.85 range.
+
+Importantly, **the number of provinces showing statistically significant DLNM effects remains relatively stable** across thresholds. This indicates that our choice of 0.85 is conservative but does not substantially affect the core finding: provinces with reliable climate-dengue timing also tend to show significant dose-response relationships in DLNM models.
+
+The 0.85 threshold balances two considerations: (1) not excluding too many provinces for meaningful interpretation, and (2) maintaining high confidence in the reliability of the climate-dengue timing relationship.
+
+\newpage
+
+# Supplementary Figures
+
+## Figure S1: Geographical Regions of Indonesia
+
+```{r}
+#| label: fig-s1
+#| fig-cap: "Geographical regions of Indonesia used for regional stratification in this study. Regions follow standard Indonesian geographic divisions."
+#| fig-width: 10
+#| fig-height: 6
+fig_s1
+```
+
+\newpage
+
+## Figure S2: Province Phase Lags with Confidence Intervals
+
+```{r}
+#| label: fig-s2
+#| fig-cap: "Between-province phase lags with 2.5th-97.5th percentile ranges of pairwise differences. Positive values indicate provinces with later peaks relative to other provinces; negative values indicate earlier peaks. Error bars represent the range of phase differences with all other provinces, not statistical uncertainty."
+#| fig-width: 10
+#| fig-height: 8
+fig_s2
+```
+
+\newpage
+
+## Figure S3: Comparison of Wavelet-Based and DLNM-Based Lag Estimates
+
+```{r}
+#| label: fig-s3
+#| fig-cap: "Comparison between wavelet-derived phase lags and DLNM-based optimal lags for precipitation and temperature. Panel A shows DLNM lags selected using the 'highest-risk' approach (lag with maximum cumulative RR); Panel B shows DLNM lags selected using the 'first-significant' approach (earliest lag with significant elevated risk). The red dashed line indicates perfect agreement. Divergence between methods is expected because wavelet phase assumes sinusoidal cycles while DLNM allows non-linear dose-response relationships."
+#| fig-width: 8
+#| fig-height: 10
+#| out-width: "90%"
+plot_compare_lag
+```
+
+\newpage
+
+## Figure S4: Year-by-Year Peak Month Variability (All Provinces)
+
+```{r}
+#| label: fig-s4
+#| fig-cap: "Year-to-year variability in peak outbreak timing across all 34 provinces. Provinces are ordered by longitude (west to east, bottom to top). Each cell shows the peak month for that province in that epidemic year (July-June). Grey cells indicate anomalous periods excluded due to weak annual periodicity. The heatmap reveals substantial inter-annual variability in peak timing, even within the same province, highlighting the complexity of dengue seasonality across Indonesia's archipelagic geography."
+#| fig-width: 10
+#| fig-height: 12
+fig_s4
+```
+
+\newpage
+
+## Figure S5: Year-by-Year Peak Month Variability (Western Provinces)
+
+```{r}
+#| label: fig-s5
+#| fig-cap: "Year-to-year variability in peak outbreak timing for western provinces only (Sumatra and Java-Bali). Provinces are ordered by longitude (west to east, bottom to top). This subset shows the regions with clearest cluster structure (Figure 3C in main text). Despite stronger regional coherence than eastern provinces, substantial year-to-year variation in peak timing persists."
+#| fig-width: 10
+#| fig-height: 8
+fig_s5
+```
